@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  wireguard:
+    image: linuxserver/wireguard:latest
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    volumes:
+      - ${SYS_VOL_CONF}:${CON_VOL_CONF}
+      - /lib/modules:/lib/modules
+    ports:
+      - ${SYS_PORT}:${CON_PORT}
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - SERVERURL=${SERVERURL}
+      - SERVERPORT=${SERVERPORT}
+      - PEERS=${PEERS}
+      - PEERDNS=${PEERDNS}
+      - INTERNAL_SUBNET=${INTERNAL_SUBNET}
+      - ALLOWEDIPS=${ALLOWEDIPS}
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    security_opt:
+      - seccomp:unconfined
+    restart: "no"

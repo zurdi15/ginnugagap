@@ -1,0 +1,23 @@
+- name: Upgrade system
+  hosts: "{{ host | default('ginnugagap') }}"
+  tasks:
+
+  # Update packages
+
+  - name: Update packages
+    become: true
+    become_method: sudo
+    ansible.builtin.apt:
+      update_cache: yes
+
+  - name: Upgrade OS packages
+    become: true
+    become_method: sudo
+    ansible.builtin.apt:
+      upgrade: dist
+
+  - name: Autoremove OS packages
+    become: true
+    become_method: sudo
+    ansible.builtin.apt:
+      autoremove: yes

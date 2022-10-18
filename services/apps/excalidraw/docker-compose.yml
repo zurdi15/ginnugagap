@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  gitea:
+    image: thisisbenny/excalidraw:latest
+    container_name: excalidraw
+    ports:
+      - ${SYS_PORT}:${CON_PORT}
+    restart: "no"

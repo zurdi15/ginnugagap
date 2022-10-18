@@ -1,0 +1,5 @@
+alias l="lsd -lA --group-directories-first"
+alias ll="lsd -lA --group-directories-first --tree"
+alias free-disk="df -h / /mnt/hdd_int /mnt/raid"
+alias free-mem="free -h --giga"
+alias shut="sudo shutdown now"

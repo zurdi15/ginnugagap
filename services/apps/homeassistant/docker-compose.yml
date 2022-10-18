@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - ${SYS_VOL_CONF}:${SYS_VOL_CONF}
+      - /etc/localtime:/etc/localtime:ro
+    restart: "no"
+    privileged: true
+    network_mode: host

@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  dashy:
+    image: lissy93/dashy:latest
+    container_name: dashy
+    volumes:
+      - ${SYS_VOL_CONF}:${CON_VOL_CONF}
+    ports:
+      - ${SYS_PORT}:${CON_PORT}
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      UID: ${DASHY_UID}
+      GID: ${DASHY_GID}
+    restart: "no"

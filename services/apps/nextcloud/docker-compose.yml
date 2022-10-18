@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  nextcloud:
+    image: nextcloud
+    container_name: nextcloud
+    volumes:
+      - ${SYS_VOL_DATA}:${CON_VOL_DATA}
+    ports:
+      - ${SYS_PORT}:${CON_PORT}
+    environment:
+      NEXTCLOUD_TRUSTED_DOMAINS: ${NEXTCLOUD_TRUSTED_DOMAINS}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_HOST: ${DB_HOST}
+      USER_UID: ${USER_UID}
+      USER_GID: ${USER_GID}
+    links:
+      - db
+    restart: "no"
+
+  db:
+    image: mariadb:10.5
+    container_name: nextcloud_db
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    volumes:
+      - ${SYS_VOL_DB}:${CON_VOL_DB}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD_ROOT}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - USER_UID=${USER_UID}
+      - USER_GID=${USER_GID} 
+    restart: "no"

@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+    front:
+        image: tombursch/kitchenowl-web:latest
+        container_name: kitchenowl_ui
+        ports:
+          - ${SYS_PORT_FRONT}:${CON_PORT_FRONT}
+        environment:
+          - FRONT_URL=${FRONT_URL}
+          - BACK_URL=${BACK_URL}:${SYS_PORT_BACK}
+        depends_on:
+          - back
+        restart: "no"
+
+    back:
+        image: tombursch/kitchenowl:latest
+        container_name: kitchenowl
+        volumes:
+          - ${SYS_VOL_DATA}:${CON_VOL_DATA}
+        ports:
+          - ${SYS_PORT_BACK}:${CON_PORT_BACK}
+        environment:
+          - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+          - FRONT_URL=${FRONT_URL}
+        restart: "no"

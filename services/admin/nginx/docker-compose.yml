@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  nginx:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx
+    ports:
+      - ${SYS_PORT_UI}:${CON_PORT_UI}
+      - ${SYS_PORT_HTTP}:${CON_PORT_HTTP}
+      - ${SYS_PORT_HTTPS}:${CON_PORT_HTTPS}
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      DB_MYSQL_HOST: ${DB_HOST}
+      DB_MYSQL_PORT: ${DB_PORT}
+      DB_MYSQL_USER: ${DB_USER}
+      DB_MYSQL_PASSWORD: ${DB_PASSWORD}
+      DB_MYSQL_NAME: ${DB_NAME}
+    volumes:
+      - ${SYS_VOL_DATA}:${CON_VOL_DATA}
+      - ${SYS_VOL_LETS}:${CON_VOL_LETS}
+    depends_on:
+      - nginx_db
+    restart: "no"
+
+  nginx_db:
+    image: jc21/mariadb-aria:latest
+    container_name: nginx_db
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ${SYS_VOL_DB}:${CON_VOL_DB}
+    restart: "no"
+
+  cloudflare_ddns_zurdotopia:
+    image: oznu/cloudflare-ddns:latest
+    container_name: cloudflare_ddns_zurdotopia
+    environment:
+      - API_KEY=${API_KEY}
+      - ZONE=${ZONE_ZURD}
+      - PROXIED=${PROXIED}
+    restart: "always"
+      
+  cloudflare_ddns_travelerturtles:
+    image: oznu/cloudflare-ddns:latest
+    container_name: cloudflare_ddns_travelerturtles
+    environment:
+      - API_KEY=${API_KEY}
+      - ZONE=${ZONE_TRAV}
+      - PROXIED=${PROXIED}
+    restart: "always"

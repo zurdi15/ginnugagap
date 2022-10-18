@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    ports:
+      - ${SYS_PORT_NODE_EXP}:${CON_PORT_NODE_EXP}
+    network_mode: host
+    pid: host
+    volumes:
+      - '/:/host:ro,rslave'
+    restart: "always"
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - ${SYS_PORT_PROM}:${CON_PORT_PROM}
+    volumes:
+      - ${SYS_VOL_PROM}:${CON_VOL_PROM}
+    depends_on:
+      - node_exporter
+    restart: "no"
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    ports:
+      - ${SYS_PORT_GRAF}:${CON_PORT_GRAF}
+    volumes:
+      - ${SYS_VOL_GRAF_DATA}:${CON_VOL_GRAF_DATA}
+      - ${SYS_VOL_GRAF_CONF}:${CON_VOL_GRAF_CONF}
+    depends_on:
+      - prometheus
+    restart: "no"

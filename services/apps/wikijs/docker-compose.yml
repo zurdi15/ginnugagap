@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  wikijs:
+    image: lscr.io/linuxserver/wikijs:latest
+    container_name: wikijs
+    volumes:
+      - ${SYS_VOL_CONF}:${CON_VOL_CONF}
+      - ${SYS_VOL_DATA}:${CON_VOL_DATA}
+    ports:
+      - ${SYS_PORT}:${CON_PORT}
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    restart: "no"

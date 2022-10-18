@@ -1,0 +1,22 @@
+- name: Setup hosts
+  hosts: "{{ cluster | default('ginnugagap') }}"
+
+- name: Executing upgrade system
+  import_playbook: "{{ playbook_dir }}/plays/upgrade_system.yaml"
+  vars:
+    host: "{{ cluster | default('ginnugagap') }}"
+  
+- name: Executing setup terminal
+  import_playbook: "{{ playbook_dir }}/plays/setup_terminal.yaml"
+  vars:
+    host: "{{ cluster | default('ginnugagap') }}"
+
+- name: Executing setup docker
+  import_playbook: "{{ playbook_dir }}/plays/setup_docker.yaml"
+  vars:
+    host: "{{ cluster | default('ginnugagap') }}"
+
+- name: Executing setup boot
+  import_playbook: "{{ playbook_dir }}/plays/setup_boot.yaml"
+  vars:
+    host: "{{ cluster | default('ginnugagap') }}"

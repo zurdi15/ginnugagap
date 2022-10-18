@@ -1,0 +1,90 @@
+version: '3'
+
+services:
+  transmission:
+    container_name: transmission
+    image: linuxserver/transmission:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - TRANSMISSION_WEB_HOME=${TRANSMISSION_WEB_HOME}
+    ports:
+      - ${SYS_PORT_TRANSS}:${CON_PORT_TRANSS}
+      - ${SYS_PORT_P2P}:${CON_PORT_P2P}
+      - ${SYS_PORT_P2P_UDP}:${CON_PORT_P2P_UDP}
+    volumes:
+      - ${SYS_VOL_DATA_TRANSS}:${CON_VOL_DATA_TRANSS}
+      - ${SYS_VOL_WATCH_TRANSS}:${CON_VOL_WATCH_TRANSS}
+      - ${SYS_VOL_DOWNLOADS}:${CON_VOL_DOWNLOADS}
+    restart: "no"
+
+  radarr:
+    container_name: radarr
+    image: linuxserver/radarr:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    ports:
+      - ${SYS_PORT_RADARR}:${CON_PORT_RADARR}
+    volumes:
+      - ${SYS_VOL_CONFIG_RADARR}:${CON_VOL_CONFIG_RADARR}
+      - ${SYS_VOL_DOWNLOADS}:${CON_VOL_DOWNLOADS}
+      - ${SYS_VOL_MOVIES}:${CON_VOL_MOVIES}
+    restart: "no"
+
+  sonarr:
+    image: linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${SYS_VOL_CONFIG_SONARR}:${CON_VOL_CONFIG_SONARR}
+      - ${SYS_VOL_DOWNLOADS}:${CON_VOL_DOWNLOADS}
+      - ${SYS_VOL_SHOWS}:${CON_VOL_MOVIES}
+    ports:
+      - ${SYS_PORT_SONARR}:${CON_PORT_SONARR}
+    restart: "no"
+
+  jackett:
+    container_name: jackett
+    image: linuxserver/jackett:latest
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${SYS_VOL_CONFIG_JACKET}:${CON_VOL_CONFIG_JACKET}
+      - ${SYS_VOL_BLACKHOLE_JACKET}:${SYS_VOL_BLACKHOLE_JACKET}
+    ports:
+      - ${SYS_PORT_JACKET}:${CON_PORT_JACKET}
+    restart: "no"
+
+  jellyfin:
+    image: linuxserver/jellyfin:arm64v8-latest
+    container_name: jellyfin
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${SYS_VOL_CONFIG_JELLYFIN}:${CON_VOL_CONFIG_JELLYFIN}
+      - ${SYS_VOL_MOVIES}:${CON_VOL_MOVIES}
+      - ${SYS_VOL_SHOWS}:${CON_VOL_SHOWS}
+      - /opt/vc/lib:/opt/vc/lib
+    ports:
+      - ${SYS_PORT_JELLYFIN}:${CON_PORT_JELLYFIN}
+      - ${SYS_PORT_JELLYFIN_ALT_1}:${CON_PORT_JELLYFIN_ALT_1}
+      - ${SYS_PORT_JELLYFIN_ALT_2_UDP}:${CON_PORT_JELLYFIN_ALT_2_UDP}
+      - ${SYS_PORT_JELLYFIN_ALT_3_UDP}:${CON_PORT_JELLYFIN_ALT_3_UDP}
+    devices:
+      - /dev/vchiq:/dev/vchiq
+      - /dev/video10:/dev/video10
+      - /dev/video11:/dev/video11
+      - /dev/video12:/dev/video12
+    security_opt:
+      - seccomp:unconfined
+    restart: "no"

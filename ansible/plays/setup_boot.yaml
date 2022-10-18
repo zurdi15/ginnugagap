@@ -1,0 +1,15 @@
+- name: Setup boot
+  hosts: "{{ host | default('ginnugagap') }}"
+  tasks:
+
+  - name: Copy boot config
+    become: true
+    become_method: sudo
+    ansible.builtin.copy:
+      src: "{{ playbook_dir }}/../../config/config.txt"
+      dest: /boot/config.txt
+      owner: root
+      group: root
+      mode: '0644'
+
+  

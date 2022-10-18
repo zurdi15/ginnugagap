@@ -1,0 +1,35 @@
+version: "3"
+
+networks:
+  pihole_net:
+    driver: ${DRIVER_TYPE}
+    driver_opts:
+      parent: ${DRIVER_PARENT} # server net interface
+    ipam:
+      driver: ${DRIVER_IPAM}
+      config:
+        - subnet: ${DRIVER_SUBNET} # server ip
+          gateway: ${DRIVER_GATEWAY} # gateway ip
+
+services:
+  pihole:
+    image: pihole/pihole:2022.04.2
+    container_name: pihole
+    hostname: pihole
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ${SYS_VOL_PIHOLE}:${CON_VOL_PIHOLE}
+      - ${SYS_VOL_DNSMASQ}:${CON_VOL_DNSMASQ}
+    ports:
+      - ${SYS_PORT_DNS_TCP}:${CON_PORT_DNS_TCP}
+      - ${SYS_PORT_DNS_UDP}:${CON_PORT_DNS_UDP}
+      - ${SYS_PORT_HTTP}:${CON_PORT_HTTP}
+    networks:
+      pihole_net:
+        ipv4_address: ${ServerIP} # pihole new ip
+    environment:
+      TZ: ${TZ}
+      ServerIP: ${ServerIP}
+      WEBPASSWORD: ${WEBPASSWORD}
+    restart: "no"

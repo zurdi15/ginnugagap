@@ -1,0 +1,92 @@
+- name: Setup terminal customization
+  hosts: "{{ host | default('ginnugagap') }}"
+  tasks:
+
+  # Get variables
+
+  - name: Get user
+    ansible.builtin.shell: whoami
+    register: whoami
+
+  - name: Get DEB architecture
+    shell: dpkg --print-architecture
+    register: deb_architecture
+
+  # Update packages
+
+  - name: Update packages
+    become: true
+    become_method: sudo
+    ansible.builtin.apt:
+      update_cache: yes
+
+  # Install packages
+
+  - name: Install dependencies
+    become: true
+    become_method: sudo
+    ansible.builtin.apt:
+      pkg:
+      - neofetch
+      - figlet
+      - git
+      - curl
+      - zsh
+      - ranger
+      - vim
+      state: latest
+
+  - name: Install lsd
+    become: true
+    become_method: sudo
+    ansible.builtin.apt:
+      deb: https://github.com/Peltoche/lsd/releases/download/0.22.0/lsd_0.22.0_{{ deb_architecture.stdout }}.deb
+  
+  - name: Install bat
+    become: true
+    become_method: sudo
+    ansible.builtin.apt:
+      deb: https://github.com/sharkdp/bat/releases/download/v0.21.0/bat_0.21.0_{{ deb_architecture.stdout }}.deb
+
+  - name: Remove previous installation of oh-my-zsh
+    ansible.builtin.file: 
+      path: $HOME/.oh-my-zsh
+      state: absent
+
+  - name: Install Oh-My-Zsh
+    ansible.builtin.shell: "curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh"
+
+  - name: Install Oh-My-Zsh plugins
+    ansible.builtin.shell: |
+      git clone https://github.com/zsh-users/zsh-autosuggestions.git $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins//zsh-syntax-highlighting
+      git clone --quiet --depth 1 https://github.com/junegunn/fzf.git ${HOME}/.fzf
+      echo -e 'y\ny\ny\n' | ${HOME}/.fzf/install > /dev/null
+
+  - name: Install p10k
+    ansible.builtin.shell: "git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+    register: result
+    failed_when: result.rc != 128 and result.rc != 0
+
+  - name: Copy dots
+    copy: src={{ item.src }} dest={{ item.dest }}
+    with_items:
+      - { src: '{{ playbook_dir }}/../../config/.bash_aliases', dest: '$HOME' }
+      - { src: '{{ playbook_dir }}/../../config/.zshrc', dest: '$HOME' }
+      - { src: '{{ playbook_dir }}/../../config/.p10k.zsh', dest: '$HOME' }
+
+  - name: Change default shell to zsh
+    become: true
+    become_method: sudo
+    ansible.builtin.shell: usermod --shell /usr/bin/zsh {{ whoami.stdout }}
+
+  - name: Hush login
+    ansible.builtin.file:
+      path: $HOME/.hushlogin
+      state: touch
+
+  - name: Autoremove OS packages
+    become: true
+    become_method: sudo
+    ansible.builtin.apt:
+      autoremove: yes

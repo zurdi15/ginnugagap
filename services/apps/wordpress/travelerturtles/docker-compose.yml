@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  travelerturtles:
+    image: wordpress:latest
+    container_name: travelerturtles
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    ports:
+      - ${SYS_PORT_TRAV}:${CON_PORT_TRAV}
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST_TRAV}
+      WORDPRESS_DB_USER: ${DB_USER_TRAV}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD_TRAV}
+      WORDPRESS_DB_NAME: ${DB_NAME_TRAV}
+      WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX_TRAV}
+    volumes:
+      - ${SYS_VOL_DATA_TRAV}:${CON_VOL_DATA_TRAV}
+    depends_on:
+      - travelerturtles_db
+    restart: "no"
+
+  travelerturtles_db:
+    image: 	yobasystems/alpine-mariadb:latest
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    container_name: travelerturtles_db
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME_TRAV}
+      MYSQL_USER: ${DB_USER_TRAV}
+      MYSQL_PASSWORD: ${DB_PASSWORD_TRAV}
+    volumes:
+      - ${SYS_VOL_DB_TRAV}:${CON_VOL_DB_TRAV}
+    restart: "no"

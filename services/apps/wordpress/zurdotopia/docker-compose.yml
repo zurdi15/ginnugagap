@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  zurdotopia:
+    image: wordpress:latest
+    container_name: zurdotopia
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    ports:
+      - ${SYS_PORT_ZURD}:${CON_PORT_ZURD}
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST_ZURD}
+      WORDPRESS_DB_USER: ${DB_USER_ZURD}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD_ZURD}
+      WORDPRESS_DB_NAME: ${DB_NAME_ZURD}
+      WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX_ZURD}
+    volumes:
+      - ${SYS_VOL_DATA_ZURD}:${CON_VOL_DATA_ZURD}
+    depends_on:
+      - zurdotopia_db
+    restart: "no"
+
+  zurdotopia_db:
+    image: 	yobasystems/alpine-mariadb:latest
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    container_name: zurdotopia_db
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME_ZURD}
+      MYSQL_USER: ${DB_USER_ZURD}
+      MYSQL_PASSWORD: ${DB_PASSWORD_ZURD}
+    volumes:
+      - ${SYS_VOL_DB_ZURD}:${CON_VOL_DB_ZURD}
+    restart: "no"

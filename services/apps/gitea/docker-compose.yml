@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    volumes:
+      - ${SYS_VOL_DATA}:${CON_VOL_DATA}
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - ${SYS_PORT_UI}:${CON_PORT_UI}
+      - ${SYS_PORT_SSH}:${CON_PORT_SSH}
+    environment:
+      - USER_UID=${USER_UID}
+      - USER_GID=${USER_GID}
+    restart: "no"

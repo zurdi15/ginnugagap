@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:alpine
+    container_name: vaultwarden
+    volumes:
+      - ${SYS_VOL_DATA}:${CON_VOL_DATA}
+    ports:
+      - ${SYS_PORT}:${CON_PORT}
+    restart: "no"
