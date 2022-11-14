@@ -44,7 +44,7 @@ services:
     volumes:
       - ${SYS_VOL_CONFIG_SONARR}:${CON_VOL_CONFIG_SONARR}
       - ${SYS_VOL_DOWNLOADS}:${CON_VOL_DOWNLOADS}
-      - ${SYS_VOL_SHOWS}:${CON_VOL_MOVIES}
+      - ${SYS_VOL_SHOWS}:${CON_VOL_SHOWS}
     ports:
       - ${SYS_PORT_SONARR}:${CON_PORT_SONARR}
     restart: "no"
