@@ -26,4 +26,4 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
     security_opt:
       - seccomp:unconfined
-    restart: "no"
+    restart: "always"
