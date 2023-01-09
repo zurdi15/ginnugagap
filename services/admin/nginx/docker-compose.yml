@@ -21,7 +21,7 @@ services:
       - ${SYS_VOL_LETS}:${CON_VOL_LETS}
     depends_on:
       - nginx_db
-    restart: "no"
+    restart: "always"
 
   nginx_db:
     image: jc21/mariadb-aria:latest
@@ -35,7 +35,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ${SYS_VOL_DB}:${CON_VOL_DB}
-    restart: "no"
+    restart: "always"
 
   cloudflare_ddns_zurdotopia:
     image: oznu/cloudflare-ddns:latest
