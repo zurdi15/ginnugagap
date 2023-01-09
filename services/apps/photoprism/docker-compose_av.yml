@@ -3,7 +3,7 @@ version: '3'
 services:
   photoprism_av:
     image: photoprism/photoprism:latest
-    container_name: photoprism
+    container_name: photoprism_av
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
@@ -59,14 +59,14 @@ services:
       # Permanent storage for settings, index & sidecar files (DON'T REMOVE):
       - ${SYS_VOL_STORAGE}:${CON_VOL_STORAGE}
     depends_on:
-      - photoprism_db
+      - photoprism_db_av
     links:
-      - photoprism_db
+      - photoprism_db_av
     restart: "no"
 
   photoprism_db_av:
     image: arm64v8/mariadb:latest
-    container_name: photoprism_db
+    container_name: photoprism_db_av
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
