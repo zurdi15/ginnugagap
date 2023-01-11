@@ -2,3 +2,12 @@
 bifrost
 asgard
 vanaheim
+
+[bifrost_standalone]
+bifrost
+
+[asgard_standalone]
+asgard
+
+[vanaheim_standalone]
+vanaheim
