@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing
+    container_name: syncthing
+    volumes:
+      - ${SYS_VOL_CONFIG}:${CON_VOL_CONFIG}
+      - ${SYS_VOL_SYNC}:${CON_VOL_SYNC}
+    ports:
+      - ${SYS_PORT_WEBUI}:${CON_PORT_WEBUI}
+      - ${SYS_PORT_TRANSFER_TCP}:${CON_PORT_TRANSFER_TCP}
+      - ${SYS_PORT_TRANSFER_UDP}:${CON_PORT_TRANSFER_UDP}
+      - ${SYS_PORT_PROTOCOL}:${CON_PORT_PROTOCOL}
+    environment:
+      USER_UID: ${USER_UID}
+      USER_GID: ${USER_GID}
+      TZ: ${TZ}
+    restart: "no"
