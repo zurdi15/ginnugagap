@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  jellyfin:
+    image: ${IMAGE_JELLYFIN_VUE}
+    container_name: jellyfin_vue
+    ports:
+      - ${SYS_PORT_JELLYFIN_VUE}:${CON_PORT_JELLYFIN_VUE}
+    restart: "no"
