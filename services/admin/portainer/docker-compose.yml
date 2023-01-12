@@ -2,7 +2,7 @@ version: '3'
 
 services:
   portainer:
-    image: portainer/portainer-ce:2.16.2
+    image: ${IMAGE}
     container_name: portainer
     security_opt:
       - no-new-privileges:true

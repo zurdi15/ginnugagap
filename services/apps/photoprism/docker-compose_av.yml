@@ -2,7 +2,7 @@ version: '3'
 
 services:
   photoprism_av:
-    image: photoprism/photoprism:latest
+    image: ${IMAGE_PP}
     container_name: photoprism_av
     security_opt:
       - seccomp:unconfined
@@ -65,7 +65,7 @@ services:
     restart: "no"
 
   photoprism_db_av:
-    image: arm64v8/mariadb:latest
+    image: ${IMAGE_PP_DB}
     container_name: photoprism_db_av
     security_opt:
       - seccomp:unconfined

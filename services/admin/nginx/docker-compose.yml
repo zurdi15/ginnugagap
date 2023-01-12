@@ -2,7 +2,7 @@ version: '3'
 
 services:
   nginx:
-    image: jc21/nginx-proxy-manager:latest
+    image: ${IMAGE_NPM}
     container_name: nginx
     ports:
       - ${SYS_PORT_UI}:${CON_PORT_UI}
@@ -24,7 +24,7 @@ services:
     restart: "always"
 
   nginx_db:
-    image: jc21/mariadb-aria:latest
+    image: ${IMAGE_NPM_DB}
     container_name: nginx_db
     environment:
       PUID: ${PUID}
@@ -38,7 +38,7 @@ services:
     restart: "always"
 
   cloudflare_ddns_zurdotopia:
-    image: oznu/cloudflare-ddns:latest
+    image: ${IMAGE_NPM_CF}
     container_name: cloudflare_ddns_zurdotopia
     environment:
       - API_KEY=${API_KEY}
@@ -47,7 +47,7 @@ services:
     restart: "always"
       
   cloudflare_ddns_travelerturtles:
-    image: oznu/cloudflare-ddns:latest
+    image: ${IMAGE_NPM_CF}
     container_name: cloudflare_ddns_travelerturtles
     environment:
       - API_KEY=${API_KEY}

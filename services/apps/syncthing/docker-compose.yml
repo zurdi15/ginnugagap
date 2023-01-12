@@ -2,7 +2,7 @@ version: '3'
 
 services:
   syncthing:
-    image: lscr.io/linuxserver/syncthing
+    image: ${IMAGE}
     container_name: syncthing
     volumes:
       - ${SYS_VOL_CONFIG}:${CON_VOL_CONFIG}

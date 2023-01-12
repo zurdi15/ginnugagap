@@ -2,7 +2,7 @@ version: "3"
 
 services:
   gitea:
-    image: gitea/gitea:latest
+    image: ${IMAGE}
     container_name: gitea
     volumes:
       - ${SYS_VOL_DATA}:${CON_VOL_DATA}

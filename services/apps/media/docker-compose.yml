@@ -3,7 +3,7 @@ version: '3'
 services:
   transmission:
     container_name: transmission
-    image: linuxserver/transmission:latest
+    image: ${IMAGE_TRANSS}
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -21,7 +21,7 @@ services:
 
   radarr:
     container_name: radarr
-    image: linuxserver/radarr:latest
+    image: ${IMAGE_RADARR}
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -35,7 +35,7 @@ services:
     restart: "no"
 
   sonarr:
-    image: linuxserver/sonarr:latest
+    image: ${IMAGE_SONARR}
     container_name: sonarr
     environment:
       - PUID=${PUID}
@@ -51,7 +51,7 @@ services:
 
   jackett:
     container_name: jackett
-    image: linuxserver/jackett:latest
+    image: ${IMAGE_JACKET}
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -64,7 +64,7 @@ services:
     restart: "no"
 
   jellyfin:
-    image: linuxserver/jellyfin:arm64v8-latest
+    image: ${IMAGE_JELLYFIN}
     container_name: jellyfin
     environment:
       - PUID=${PUID}

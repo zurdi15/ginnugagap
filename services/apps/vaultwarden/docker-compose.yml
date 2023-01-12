@@ -2,7 +2,7 @@ version: "3"
 
 services:
   vaultwarden:
-    image: vaultwarden/server:alpine
+    image: ${IMAGE}
     container_name: vaultwarden
     volumes:
       - ${SYS_VOL_DATA}:${CON_VOL_DATA}

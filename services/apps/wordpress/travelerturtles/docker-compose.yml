@@ -2,7 +2,7 @@ version: '3'
 
 services:
   travelerturtles:
-    image: wordpress:latest
+    image: ${IMAGE_WP}
     container_name: travelerturtles
     security_opt:
       - seccomp:unconfined
@@ -22,7 +22,7 @@ services:
     restart: "no"
 
   travelerturtles_db:
-    image: 	yobasystems/alpine-mariadb:latest
+    image: ${IMAGE_WP_DB}
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     container_name: travelerturtles_db
     security_opt:

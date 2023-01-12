@@ -50,12 +50,7 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
-
-  - name: Install docker-compose
-    become: true
-    become_method: sudo
-    ansible.builtin.pip:
-      name: docker-compose
+      - docker-compose-plugin
 
   - name: Add user to docker group
     become: true

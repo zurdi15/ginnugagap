@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   node_exporter:
-    image: quay.io/prometheus/node-exporter:latest
+    image: ${IMAGE_NODE}
     container_name: node_exporter
     command:
       - '--path.rootfs=/host'
@@ -15,7 +15,7 @@ services:
     restart: "always"
 
   prometheus:
-    image: prom/prometheus:latest
+    image: ${IMAGE_PROM}
     container_name: prometheus
     ports:
       - ${SYS_PORT_PROM}:${CON_PORT_PROM}
@@ -26,7 +26,7 @@ services:
     restart: "no"
 
   grafana:
-    image: grafana/grafana-oss:latest
+    image: ${IMAGE_GRAF}
     container_name: grafana
     ports:
       - ${SYS_PORT_GRAF}:${CON_PORT_GRAF}

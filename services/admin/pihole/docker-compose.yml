@@ -13,7 +13,7 @@ networks:
 
 services:
   pihole:
-    image: pihole/pihole:2022.04.2
+    image: ${IMAGE}
     container_name: pihole
     hostname: pihole
     cap_add:

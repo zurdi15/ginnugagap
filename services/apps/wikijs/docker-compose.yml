@@ -2,7 +2,7 @@ version: "3"
 
 services:
   wikijs:
-    image: lscr.io/linuxserver/wikijs:latest
+    image: ${IMAGE}
     container_name: wikijs
     volumes:
       - ${SYS_VOL_CONF}:${CON_VOL_CONF}

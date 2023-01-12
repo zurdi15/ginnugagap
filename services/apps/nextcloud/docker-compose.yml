@@ -2,7 +2,7 @@ version: '3'
 
 services:
   nextcloud:
-    image: nextcloud
+    image: ${IMAGE_NC}
     container_name: nextcloud
     volumes:
       - ${SYS_VOL_DATA}:${CON_VOL_DATA}
@@ -21,7 +21,7 @@ services:
     restart: "no"
 
   db:
-    image: mariadb:10.5
+    image: ${IMAGE_NC_DB}
     container_name: nextcloud_db
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     volumes:

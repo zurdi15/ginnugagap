@@ -2,7 +2,7 @@ version: "3"
 
 services:
     front:
-        image: tombursch/kitchenowl-web:latest
+        image: ${IMAGE_FRONT}
         container_name: kitchenowl_ui
         ports:
           - ${SYS_PORT_FRONT}:${CON_PORT_FRONT}
@@ -14,7 +14,7 @@ services:
         restart: "no"
 
     back:
-        image: tombursch/kitchenowl:latest
+        image: ${IMAGE_BACK}
         container_name: kitchenowl
         volumes:
           - ${SYS_VOL_DATA}:${CON_VOL_DATA}
