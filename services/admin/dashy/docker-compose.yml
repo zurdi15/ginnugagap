@@ -12,4 +12,4 @@ services:
       NODE_ENV: ${NODE_ENV}
       UID: ${DASHY_UID}
       GID: ${DASHY_GID}
-    restart: "no"
+    restart: "always"

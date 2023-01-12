@@ -7,6 +7,6 @@ services:
     volumes:
       - ${SYS_VOL_CONF}:${CON_VOL_CONF}
       - /etc/localtime:/etc/localtime:ro
-    restart: "no"
+    restart: "always"
     privileged: true
     network_mode: host

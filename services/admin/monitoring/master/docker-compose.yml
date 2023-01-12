@@ -23,7 +23,7 @@ services:
       - ${SYS_VOL_PROM}:${CON_VOL_PROM}
     depends_on:
       - node_exporter
-    restart: "no"
+    restart: "always"
 
   grafana:
     image: ${IMAGE_GRAF}
@@ -35,4 +35,4 @@ services:
       - ${SYS_VOL_GRAF_CONF}:${CON_VOL_GRAF_CONF}
     depends_on:
       - prometheus
-    restart: "no"
+    restart: "always"
