@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  emulatorjs:
+    image: ${IMAGE}
+    container_name: emulatorjs
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${SYS_VOL_CONFIG}:${CON_VOL_CONFIG}
+      - ${SYS_VOL_ROMS}:${CON_VOL_ROMS}
+    ports:
+      - ${SYS_PORT_ROMS}:${CON_PORT_ROMS}
+      - ${SYS_PORT_EMU}:${CON_PORT_EMU}
+    restart: "no"
