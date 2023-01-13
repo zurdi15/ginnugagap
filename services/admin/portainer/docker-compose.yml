@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  portainer:
+    image: ${IMAGE}
+    container_name: portainer
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${SYS_VOL_DATA}:${CON_VOL_DATA}
+    ports:
+      - ${SYS_PORT_EDGE}:${CON_PORT_EDGE}
+      - ${SYS_PORT_UI_HTTP}:${CON_PORT_UI_HTTP}
+      - ${SYS_PORT_UI_HTTPS}:${CON_PORT_UI_HTTPS}
+    restart: "always"
