@@ -8,6 +8,8 @@ services:
       - ${SYS_VOL_REGISTRY}:${CON_VOL_REGISTRY}
     ports:
       - ${SYS_PORT}:${CON_PORT}
+    environment:
+      - REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin=${REGISTRY_HTTP_HEADERS_Access-Control-Allow-Origin}
     restart: "always"
 
   registry-front:
