@@ -9,3 +9,15 @@ services:
     ports:
       - ${SYS_PORT}:${CON_PORT}
     restart: "always"
+
+  registry-front:
+    image: ${IMAGE_FRONT}
+    container_name: registry-front
+    ports:
+      - ${SYS_PORT_FRONT}:${CON_PORT_FRONT}
+    environment:
+      - REGISTRY_TITLE=${REGISTRY_TITLE}
+      - REGISTRY_URL=${REGISTRY_URL}
+      - SINGLE_REGISTRY=${SINGLE_REGISTRY}
+    depends_on:
+      - registry
