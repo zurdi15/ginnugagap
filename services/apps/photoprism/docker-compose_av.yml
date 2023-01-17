@@ -8,7 +8,7 @@ services:
       - seccomp:unconfined
       - apparmor:unconfined
     ports:
-      - ${SYS_PORT}:${CON_PORT}
+      - ${SYS_PORT_PP}:${CON_PORT_PP}
     environment:
       PHOTOPRISM_ADMIN_PASSWORD: ${PHOTOPRISM_ADMIN_PASSWORD}   # Your initial admin password (min 4 characters)
       PHOTOPRISM_ORIGINALS_LIMIT: ${PHOTOPRISM_ORIGINALS_LIMIT}                  # File size limit for originals in MB (increase for high-res video)
@@ -29,7 +29,7 @@ services:
       PHOTOPRISM_UPLOAD_NSFW: ${PHOTOPRISM_UPLOAD_NSFW}                   # Allow uploads that MAY be offensive
       # PHOTOPRISM_DATABASE_DRIVER: "sqlite"            # SQLite is an embedded database that doesn't require a server
       PHOTOPRISM_DATABASE_DRIVER: ${PHOTOPRISM_DATABASE_DRIVER}              # Use MariaDB (or MySQL) instead of SQLite for improved performance
-      PHOTOPRISM_DATABASE_SERVER: ${PHOTOPRISM_DATABASE_SERVER}  # MariaDB database server (hostname:port)
+      PHOTOPRISM_DATABASE_SERVER: ${PHOTOPRISM_DATABASE_SERVER}:${CON_PORT_DB}  # MariaDB database server (hostname:port)
       PHOTOPRISM_DATABASE_NAME: ${DB_NAME}           # MariaDB database schema name
       PHOTOPRISM_DATABASE_USER: ${DB_USER}            # MariaDB database user name
       PHOTOPRISM_DATABASE_PASSWORD: ${DB_PASSWORD}          # MariaDB database user password
@@ -73,6 +73,8 @@ services:
     command: mysqld --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=50
     volumes:
       - ${SYS_VOL_DB}:${CON_VOL_DB}
+    ports:
+      - ${SYS_PORT_DB}:${CON_PORT_DB}
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
