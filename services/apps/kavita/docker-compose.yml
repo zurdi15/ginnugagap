@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  emulatorjs:
+    image: ${IMAGE}
+    container_name: kavita
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${SYS_VOL_CONFIG}:${CON_VOL_CONFIG}
+      - ${SYS_VOL_COMICS}:${CON_VOL_COMICS}
+      - ${SYS_VOL_BOOKS}:${CON_VOL_BOOKS}
+    ports:
+      - ${SYS_PORT}:${CON_PORT}
+    restart: "no"
+    
