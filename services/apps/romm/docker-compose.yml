@@ -1,7 +1,7 @@
 version: "3"
 services:
   romm:
-    image: zurdi15/romm:dev-0.2
+    image: romm:latest
     container_name: romm
     environment:
       - DB_HOST=${DB_HOST}
@@ -14,7 +14,6 @@ services:
     volumes:
       - ${EMULATION_PATH}:/emulation
     ports:
-      - ${ROMM_PORT_BACKEND}:5000
       - ${ROMM_PORT_FRONTEND}:5173
     restart: "no"
 
