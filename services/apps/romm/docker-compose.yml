@@ -1,26 +1,41 @@
-version: "3"
+version: '3'
 services:
   romm:
-    image: zurdi15/romm:latest
+    image: ${IMAGE_ROMM}
     container_name: romm
     environment:
+      - ROMM_DB_DRIVER=${ROMM_DB_DRIVER}
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
       - DB_PASSWD=${DB_PASSWD}
-      - CLIENT_ID=${CLIENT_ID}
-      - CLIENT_SECRET=${CLIENT_SECRET}
-      - STEAMGRIDDB_API_KEY=${STEAMGRIDDB_API_KEY}
+      - IGDB_CLIENT_ID=${IGDB_CLIENT_ID}
+      - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET}
+      - ROMM_AUTH_ENABLED=${ROMM_AUTH_ENABLED}
+      - ROMM_AUTH_SECRET_KEY=${ROMM_AUTH_SECRET_KEY}
+      - ROMM_AUTH_USERNAME=${ROMM_AUTH_USERNAME}
+      - ROMM_AUTH_PASSWORD=${ROMM_AUTH_PASSWORD}
+      - ENABLE_EXPERIMENTAL_REDIS=${ENABLE_EXPERIMENTAL_REDIS}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - ENABLE_SCHEDULED_RESCAN=${ENABLE_SCHEDULED_RESCAN}
+      - ENABLE_RESCAN_ON_FILESYSTEM_CHANGE=${ENABLE_RESCAN_ON_FILESYSTEM_CHANGE}
+      - ENABLE_SCHEDULED_UPDATE_SWITCH_TITLEDB=${ENABLE_SCHEDULED_UPDATE_SWITCH_TITLEDB}
+      - ENABLE_SCHEDULED_UPDATE_MAME_XML=${ENABLE_SCHEDULED_UPDATE_MAME_XML}
     volumes:
-      - ${EMULATION_PATH}:/emulation
+      - ${LIBRARY_PATH}:/romm/library
+      - ${CONFIG_PATH}:/romm/config.yml
+      - ${RESOURCES_PATH}:/romm/resources
+      - ${DATABASE_PATH}:/romm/database
     ports:
-      - ${ROMM_PORT_BACKEND}:5000
-      - ${ROMM_PORT_FRONTEND}:5173
-    restart: "no"
+      - ${ROMM_PORT}:8080
+    depends_on:
+      - romm_db
+    restart: "unless-stopped"
 
 
   romm_db:
-    image: lscr.io/linuxserver/mariadb:latest
+    image: ${IMAGE_ROMM_DB}
     container_name: romm_db
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWD}
@@ -31,4 +46,13 @@ services:
       - ${DB_CONFIG_PATH}:/config
     ports:
       - ${DB_PORT}:3306
-    restart: "no"
+    restart: "unless-stopped"
+
+  redis:
+    image: ${IMAGE_ROMM_REDIS}
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - ${REDIS_PORT}:6379
+
+
