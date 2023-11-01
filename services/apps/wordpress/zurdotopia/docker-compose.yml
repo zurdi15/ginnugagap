@@ -23,13 +23,12 @@ services:
 
   zurdotopia_db:
     image: ${IMAGE_WP_DB}
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     container_name: zurdotopia_db
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD_ZURD}
       MYSQL_DATABASE: ${DB_NAME_ZURD}
       MYSQL_USER: ${DB_USER_ZURD}
       MYSQL_PASSWORD: ${DB_PASSWORD_ZURD}

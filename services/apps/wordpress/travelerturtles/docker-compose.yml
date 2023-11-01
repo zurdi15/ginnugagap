@@ -23,13 +23,12 @@ services:
 
   travelerturtles_db:
     image: ${IMAGE_WP_DB}
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     container_name: travelerturtles_db
     security_opt:
       - seccomp:unconfined
       - apparmor:unconfined
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD_TRAV}
       MYSQL_DATABASE: ${DB_NAME_TRAV}
       MYSQL_USER: ${DB_USER_TRAV}
       MYSQL_PASSWORD: ${DB_PASSWORD_TRAV}
