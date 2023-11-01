@@ -18,6 +18,7 @@ services:
       PHOTOPRISM_PUBLIC: ${PHOTOPRISM_PUBLIC}                        # No authentication required (disables password protection)
       PHOTOPRISM_READONLY: ${PHOTOPRISM_READONLY}                      # Don't modify originals directory (reduced functionality)
       PHOTOPRISM_EXPERIMENTAL: ${PHOTOPRISM_EXPERIMENTAL}                  # Enables experimental features
+      PHOTOPRISM_DISABLE_TLS: ${PHOTOPRISM_DISABLE_TLS}
       PHOTOPRISM_DISABLE_WEBDAV: ${PHOTOPRISM_DISABLE_WEBDAV}               # Disables built-in WebDAV server
       PHOTOPRISM_DISABLE_SETTINGS: ${PHOTOPRISM_DISABLE_SETTINGS}             # Disables Settings in Web UI
       PHOTOPRISM_DISABLE_TENSORFLOW: ${PHOTOPRISM_DISABLE_TENSORFLOW}           # Disables using TensorFlow for image classification
