@@ -1,0 +1,14 @@
+services:
+  homepage:
+    image: ${IMAGE}
+    container_name: homepage
+    ports:
+      - ${SYS_PORT}:${CON_PORT}
+    volumes:
+      - ${SYS_VOL_CONFIG}:${CON_VOL_CONFIG}
+      # - ${SYS_DRIVE1_PATH}:${CON_DRIVE1_PATH}:ro
+      - ${SYS_DRIVE2_PATH}:${CON_DRIVE2_PATH}:ro
+      - ${SYS_ICONS_PATH}:${CON_ICONS_PATH}
+      - ${SYS_IMAGES_PATH}:${CON_IMAGES_PATH}
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: always
