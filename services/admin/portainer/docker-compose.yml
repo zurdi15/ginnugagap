@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   portainer:
     image: ${IMAGE}
@@ -14,4 +12,4 @@ services:
       - ${SYS_PORT_EDGE}:${CON_PORT_EDGE}
       - ${SYS_PORT_UI_HTTP}:${CON_PORT_UI_HTTP}
       - ${SYS_PORT_UI_HTTPS}:${CON_PORT_UI_HTTPS}
-    restart: "always"
+    restart: always
