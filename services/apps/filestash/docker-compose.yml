@@ -1,0 +1,25 @@
+services:
+  filestash:
+    container_name: filestash
+    image: ${IMAGE}
+    # environment:
+    # - APPLICATION_URL=
+    # - GDRIVE_CLIENT_ID=<gdrive_client>
+    # - GDRIVE_CLIENT_SECRET=<gdrive_secret>
+    # - DROPBOX_CLIENT_ID=<dropbox_key>
+    # - ONLYOFFICE_URL=http://onlyoffice
+    ports:
+    - ${SYS_PORT}:${CON_PORT}
+    volumes:
+    - ${SYS_DRIVE1_PATH}:${CON_DRIVE1_PATH}
+    - ${SYS_DRIVE2_PATH}:${CON_DRIVE2_PATH}
+    - ${SYS_HOME_PATH}:${CON_HOME_PATH}
+    - ${SYS_CONFIG_PATH}:${CON_CONFIG_PATH}
+    restart: "unless-stopped"
+
+  # onlyoffice:
+  #   container_name: filestash_oods
+  #   image: onlyoffice/documentserver
+  #   restart: always
+  #   security_opt:
+  #     - seccomp:unconfined
