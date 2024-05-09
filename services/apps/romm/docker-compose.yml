@@ -1,58 +1,41 @@
-version: '3'
+volumes:
+  romm_redis_data:
+
 services:
   romm:
     image: ${IMAGE_ROMM}
     container_name: romm
     environment:
-      - ROMM_DB_DRIVER=${ROMM_DB_DRIVER}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - DB_USER=${DB_USER}
-      - DB_PASSWD=${DB_PASSWD}
-      - IGDB_CLIENT_ID=${IGDB_CLIENT_ID}
-      - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET}
-      - ROMM_AUTH_ENABLED=${ROMM_AUTH_ENABLED}
-      - ROMM_AUTH_SECRET_KEY=${ROMM_AUTH_SECRET_KEY}
-      - ROMM_AUTH_USERNAME=${ROMM_AUTH_USERNAME}
-      - ROMM_AUTH_PASSWORD=${ROMM_AUTH_PASSWORD}
-      - ENABLE_EXPERIMENTAL_REDIS=${ENABLE_EXPERIMENTAL_REDIS}
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
-      - ENABLE_SCHEDULED_RESCAN=${ENABLE_SCHEDULED_RESCAN}
-      - ENABLE_RESCAN_ON_FILESYSTEM_CHANGE=${ENABLE_RESCAN_ON_FILESYSTEM_CHANGE}
-      - ENABLE_SCHEDULED_UPDATE_SWITCH_TITLEDB=${ENABLE_SCHEDULED_UPDATE_SWITCH_TITLEDB}
-      - ENABLE_SCHEDULED_UPDATE_MAME_XML=${ENABLE_SCHEDULED_UPDATE_MAME_XML}
+      - DB_HOST=romm-db
+      - DB_NAME=${DB_NAME} # Should match MYSQL_DATABASE in mariadb
+      - DB_USER=${DB_USER} # Should match MYSQL_USER in mariadb
+      - DB_PASSWD=${DB_PASSWD} # Should match MYSQL_PASSWORD in mariadb
+      - IGDB_CLIENT_ID=${IGDB_CLIENT_ID} # Generate an ID and SECRET in IGDB
+      - IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET} # https://api-docs.igdb.com/#account-creation
+      - MOBYGAMES_API_KEY=${MOBYGAMES_API_KEY} # https://www.mobygames.com/info/api/
+      - ROMM_AUTH_SECRET_KEY=${ROMM_AUTH_SECRET_KEY} # Generate a key with `openssl rand -hex 32`
     volumes:
-      - ${LIBRARY_PATH}:/romm/library
-      - ${CONFIG_PATH}:/romm/config.yml
-      - ${RESOURCES_PATH}:/romm/resources
-      - ${DATABASE_PATH}:/romm/database
+      - ${SYS_LIBRARY_PATH}:${CON_LIBRARY_PATH} # Your game library
+      - ${SYS_CONFIG_PATH}:${CON_CONFIG_PATH} # Path where config.yml is stored
+      - ${SYS_ASSETS_PATH}:${CON_ASSETS_PATH} # Uploaded saves, states, etc.
+      - ${SYS_RESOURCES_PATH}:${CON_RESOURCES_PATH} # Resources fetched from IGDB (covers, screenshots, etc.)
+      - romm_redis_data:/redis-data # Cached data for background tasks
     ports:
-      - ${ROMM_PORT}:8080
+      - ${SYS_ROMM_PORT}:${CON_ROMM_PORT}
     depends_on:
       - romm_db
     restart: "unless-stopped"
 
-
   romm_db:
     image: ${IMAGE_ROMM_DB}
-    container_name: romm_db
+    container_name: romm-db
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWD}
-      - MYSQL_DATABASE=romm
+      - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWD}
     volumes:
-      - ${DB_CONFIG_PATH}:/config
+      - ${SYS_DATABASE_PATH}:${CON_DATABASE_PATH}
     ports:
-      - ${DB_PORT}:3306
+      - ${SYS_DB_PORT}:${CON_DB_PORT}
     restart: "unless-stopped"
-
-  redis:
-    image: ${IMAGE_ROMM_REDIS}
-    container_name: redis
-    restart: unless-stopped
-    ports:
-      - ${REDIS_PORT}:6379
-
-
