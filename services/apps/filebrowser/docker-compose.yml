@@ -1,18 +1,14 @@
-version: "3"
-
 services:
-  emulatorjs:
+  filebrowser:
     image: ${IMAGE}
     container_name: filebrowser
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
       - TZ=${TZ}
     volumes:
       - ${SYS_VOL_FILESYSTEM}:${CON_VOL_FILESYSTEM}
       - ${SYS_VOL_DB}:${CON_VOL_DB}
-      # - ${SYS_VOL_CONFIG}:${CON_VOL_CONFIG}
+      - ${SYS_VOL_CONFIG}:${CON_VOL_CONFIG}
     ports:
       - ${SYS_PORT}:${CON_PORT}
-    restart: "no"
+    restart: "unless-stopped"
     
