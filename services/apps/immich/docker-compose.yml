@@ -18,7 +18,7 @@ services:
       DB_USERNAME: ${DB_USERNAME}
       DB_DATABASE_NAME: ${DB_DATABASE_NAME}
     volumes:
-      - ${SYS_LIBRARY_PATH}:${CON_LIBRARY_PATH}:ro
+      - ${SYS_LIBRARY_PATH}:${CON_LIBRARY_PATH}
       - ${SYS_UPLOAD_PATH}:${CON_UPLOAD_PATH}
       - /etc/localtime:/etc/localtime:ro
     ports:
@@ -40,7 +40,7 @@ services:
       DB_USERNAME: ${DB_USERNAME}
       DB_DATABASE_NAME: ${DB_DATABASE_NAME}
     volumes:
-      - ${SYS_LIBRARY_PATH}:${CON_LIBRARY_PATH}:ro
+      - ${SYS_LIBRARY_PATH}:${CON_LIBRARY_PATH}
       - ${SYS_UPLOAD_PATH}:${CON_UPLOAD_PATH}
       - /etc/localtime:/etc/localtime:ro
     depends_on:
